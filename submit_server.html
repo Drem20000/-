@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>提交服务器 - 我的世界服务器分享</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-red: #e63946;
+            --dark-red: #c1121f;
+            --light-red: #ff758f;
+            --pale-red: #ffccd5;
+            --bg-dark: #1a1a2e;
+            --bg-card: #16213e;
+            --text-light: #ffffff;
+            --text-muted: #a0a0a0;
+            --border-color: #e6394633;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #0f0f23 100%);
+            min-height: 100vh;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* 头部样式 */
+        header {
+            background: linear-gradient(90deg, var(--dark-red) 0%, var(--primary-red) 50%, var(--dark-red) 100%);
+            padding: 1.5rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--text-light);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: var(--pale-red);
+            font-size: 0.95rem;
+        }
+
+        /* 导航栏 */
+        nav {
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+            padding: 0.8rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .back-link {
+            color: var(--text-light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--primary-red);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-red);
+        }
+
+        /* 主要内容区 */
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .page-title h2 {
+            font-size: 2rem;
+            color: var(--primary-red);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-title p {
+            color: var(--text-muted);
+        }
+
+        .form-container {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-label .required {
+            color: var(--primary-red);
+            margin-left: 0.25rem;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            background: var(--bg-dark);
+            border: 2px solid var(--border-color);
+            color: var(--text-light);
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary-red);
+            box-shadow: 0 0 15px rgba(230, 57, 70, 0.2);
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .form-hint {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+
+        .icon-select {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .icon-option {
+            width: 45px;
+            height: 45px;
+            background: var(--bg-dark);
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .icon-option:hover,
+        .icon-option.selected {
+            border-color: var(--primary-red);
+            background: rgba(230, 57, 70, 0.1);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--dark-red) 0%, var(--primary-red) 100%);
+            color: var(--text-light);
+            border: none;
+            padding: 1rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(230, 57, 70, 0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .message {
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+
+        .message.success {
+            background: rgba(74, 222, 128, 0.1);
+            border: 1px solid #4ade80;
+            color: #4ade80;
+            display: block;
+        }
+
+        .message.error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+            display: block;
+        }
+
+        .guidelines {
+            background: var(--bg-dark);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-left: 3px solid var(--primary-red);
+        }
+
+        .guidelines h3 {
+            color: var(--primary-red);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .guidelines ul {
+            list-style: none;
+            color: var(--text-muted);
+        }
+
+        .guidelines li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .guidelines li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--primary-red);
+        }
+
+        /* 页脚 */
+        footer {
+            background: var(--bg-card);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--primary-red);
+        }
+
+        .copyright {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .page-title h2 {
+                font-size: 1.6rem;
+            }
+
+            .form-container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部 -->
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">⛏️</div>
+                <h1>我的世界服务器分享</h1>
+            </div>
+            <p class="subtitle">发现最优质的MC服务器，开启你的方块冒险之旅</p>
+        </div>
+    </header>
+
+    <!-- 导航栏 -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="back-link">← 返回首页</a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">首页</a>
+                <a href="about.html" class="nav-link">关于我们</a>
+                <a href="submit_server.html" class="nav-link active">提交服务器</a>
+                <a href="#" class="nav-link">联系方式</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <main>
+        <div class="page-title">
+            <h2>提交服务器</h2>
+            <p>分享你的Minecraft服务器，让更多玩家发现你的世界</p>
+        </div>
+
+        <div class="guidelines">
+            <h3>📋 提交须知</h3>
+            <ul>
+                <li>请确保服务器长期稳定运行，在线率不低于80%</li>
+                <li>服务器需符合Minecraft EULA规定，禁止付费获得游戏优势</li>
+                <li>请提供真实准确的服务器信息，虚假信息将被删除</li>
+                <li>提交后我们将在1-3个工作日内进行审核</li>
+                <li>审核通过后，您的服务器将出现在服务器列表中</li>
+            </ul>
+        </div>
+
+        <div class="form-container">
+            <div class="message" id="formMessage"></div>
+            
+            <form id="submitForm" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label class="form-label">服务器名称<span class="required">*</span></label>
+                    <input type="text" class="form-input" id="serverName" placeholder="例如：梦想大陆生存服" required maxlength="30">
+                    <p class="form-hint">请输入能代表你服务器特色的名称，最多30个字符</p>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">服务器图标</label>
+                    <div class="icon-select" id="iconSelect">
+                        <div class="icon-option selected" data-icon="🌲" onclick="selectIcon(this)">🌲</div>
+                        <div class="icon-option" data-icon="🏰" onclick="selectIcon(this)">🏰</div>
+                        <div class="icon-option" data-icon="🏗️" onclick="selectIcon(this)">🏗️</div>
+                        <div class="icon-option" data-icon="⚔️" onclick="selectIcon(this)">⚔️</div>
+                        <div class="icon-option" data-icon="⚙️" onclick="selectIcon(this)">⚙️</div>
+                        <div class="icon-option" data-icon="🔥" onclick="selectIcon(this)">🔥</div>
+                        <div class="icon-option" data-icon="🏘️" onclick="selectIcon(this)">🏘️</div>
+                        <div class="icon-option" data-icon="🎪" onclick="selectIcon(this)">🎪</div>
+                    </div>
+                    <input type="hidden" id="selectedIcon" value="🌲">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">游戏版本<span class="required">*</span></label>
+                        <select class="form-select" id="gameVersion" required>
+                            <option value="">请选择版本</option>
+                            <option value="1.20.4">1.20.4</option>
+                            <option value="1.20.2">1.20.2</option>
+                            <option value="1.20.1">1.20.1</option>
+                            <option value="1.19.4">1.19.4</option>
+                            <option value="1.18.2">1.18.2</option>
+                            <option value="1.16.5">1.16.5</option>
+                            <option value="1.12.2">1.12.2</option>
+                            <option value="其他">其他</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">服务器类型<span class="required">*</span></label>
+                        <select class="form-select" id="serverType" required>
+                            <option value="">请选择类型</option>
+                            <option value="survival">生存</option>
+                            <option value="creative">创造</option>
+                            <option value="minigame">小游戏</option>
+                            <option value="modded">模组服</option>
+                            <option value="anarchy">混乱服</option>
+                            <option value="roleplay">角色扮演</option>
+                            <option value="skyblock">空岛生存</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">服务器IP<span class="required">*</span></label>
+                        <input type="text" class="form-input" id="serverIp" placeholder="例如：play.example.com" required>
+                        <p class="form-hint">无需输入端口号，默认使用25565</p>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">开服时间</label>
+                        <input type="date" class="form-input" id="startDate">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">服务器简介<span class="required">*</span></label>
+                    <textarea class="form-textarea" id="serverDesc" placeholder="请详细描述你的服务器特色、玩法、活动等，让玩家了解你的世界..." required minlength="50" maxlength="500"></textarea>
+                    <p class="form-hint">50-500字，详细介绍服务器特色和玩法</p>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">服务器标签</label>
+                    <input type="text" class="form-input" id="serverTags" placeholder="用逗号分隔，例如：纯净生存,经济系统,领地保护">
+                    <p class="form-hint">最多5个标签，用逗号分隔</p>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">联系邮箱<span class="required">*</span></label>
+                    <input type="email" class="form-input" id="contactEmail" placeholder="例如：admin@example.com" required>
+                    <p class="form-hint">用于接收审核结果通知，不会公开显示</p>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">🚀 提交服务器</button>
+            </form>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-links">
+            <a href="index.html" class="footer-link">首页</a>
+            <a href="about.html" class="footer-link">关于我们</a>
+            <a href="submit_server.html" class="footer-link">提交服务器</a>
+            <a href="terms_of_service.html" class="footer-link">服务条款</a>
+            <a href="privacy_policy.html" class="footer-link">隐私政策</a>
+        </div>
+        <p class="copyright">© 2026 我的世界服务器分享平台 | 用心发现每一个精彩服务器</p>
+    </footer>
+
+    <script>
+        // 选择图标
+        function selectIcon(element) {
+            document.querySelectorAll('.icon-option').forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+            document.getElementById('selectedIcon').value = element.dataset.icon;
+        }
+
+        // 显示消息
+        function showMessage(text, type) {
+            const messageEl = document.getElementById('formMessage');
+            messageEl.textContent = text;
+            messageEl.className = 'message ' + type;
+        }
+
+        // 处理表单提交
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = '⏳ 提交中...';
+
+            // 收集表单数据
+            const formData = {
+                name: document.getElementById('serverName').value.trim(),
+                icon: document.getElementById('selectedIcon').value,
+                version: document.getElementById('gameVersion').value,
+                type: document.getElementById('serverType').value,
+                ip: document.getElementById('serverIp').value.trim(),
+                startDate: document.getElementById('startDate').value,
+                description: document.getElementById('serverDesc').value.trim(),
+                tags: document.getElementById('serverTags').value.split(',').map(t => t.trim()).filter(t => t),
+                email: document.getElementById('contactEmail').value.trim()
+            };
+
+            // 模拟提交延迟
+            setTimeout(() => {
+                // 这里可以添加实际的API提交逻辑
+                console.log('提交的服务器数据:', formData);
+                
+                // 显示成功消息
+                showMessage('🎉 服务器提交成功！我们将在1-3个工作日内完成审核，请留意您的邮箱通知。', 'success');
+                
+                // 重置表单
+                document.getElementById('submitForm').reset();
+                document.getElementById('selectedIcon').value = '🌲';
+                document.querySelectorAll('.icon-option').forEach((opt, index) => {
+                    opt.classList.toggle('selected', index === 0);
+                });
+                
+                submitBtn.disabled = false;
+                submitBtn.textContent = '🚀 提交服务器';
+                
+                // 滚动到消息位置
+                document.getElementById('formMessage').scrollIntoView({ behavior: 'smooth' });
+            }, 1500);
+        }
+    </script>
+</body>
+</html>

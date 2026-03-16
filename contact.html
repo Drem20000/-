@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>联系我们 - 我的世界服务器分享</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-red: #e63946;
+            --dark-red: #c1121f;
+            --light-red: #ff758f;
+            --pale-red: #ffccd5;
+            --bg-dark: #1a1a2e;
+            --bg-card: #16213e;
+            --text-light: #ffffff;
+            --text-muted: #a0a0a0;
+            --border-color: #e6394633;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #0f0f23 100%);
+            min-height: 100vh;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* 头部样式 */
+        header {
+            background: linear-gradient(90deg, var(--dark-red) 0%, var(--primary-red) 50%, var(--dark-red) 100%);
+            padding: 1.5rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--text-light);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: var(--pale-red);
+            font-size: 0.95rem;
+        }
+
+        /* 导航栏 */
+        nav {
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+            padding: 0.8rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .back-link {
+            color: var(--text-light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--primary-red);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-red);
+        }
+
+        /* 主要内容区 */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .page-title h2 {
+            font-size: 2rem;
+            color: var(--primary-red);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-title p {
+            color: var(--text-muted);
+        }
+
+        .content-section {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .section-title {
+            color: var(--primary-red);
+            font-size: 1.3rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .content-section p {
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .content-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.2rem;
+            background: var(--bg-dark);
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-red);
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--dark-red), var(--primary-red));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .contact-text h4 {
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .contact-text p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-label {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input,
+        .form-textarea,
+        .form-select {
+            background: var(--bg-dark);
+            border: 2px solid var(--border-color);
+            color: var(--text-light);
+            padding: 0.8rem 1rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary-red);
+            box-shadow: 0 0 15px rgba(230, 57, 70, 0.2);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, var(--dark-red) 0%, var(--primary-red) 100%);
+            color: var(--text-light);
+            border: none;
+            padding: 1rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(230, 57, 70, 0.3);
+        }
+
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .faq-item {
+            background: var(--bg-dark);
+            border-radius: 10px;
+            padding: 1rem 1.2rem;
+            border-left: 3px solid var(--primary-red);
+        }
+
+        .faq-question {
+            color: var(--text-light);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .faq-answer {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* 页脚 */
+        footer {
+            background: var(--bg-card);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--primary-red);
+        }
+
+        .copyright {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+            .page-title h2 {
+                font-size: 1.6rem;
+            }
+            .content-section {
+                padding: 1.5rem;
+            }
+            .nav-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">⛏️</div>
+                <h1>我的世界服务器分享</h1>
+            </div>
+            <p class="subtitle">发现最优质的MC服务器，开启你的方块冒险之旅</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="back-link">← 返回首页</a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">首页</a>
+                <a href="about.html" class="nav-link">关于我们</a>
+                <a href="submit_server.html" class="nav-link">提交服务器</a>
+                <a href="contact.html" class="nav-link active">联系我们</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="page-title">
+            <h2>联系我们</h2>
+            <p>无论您有任何问题、建议或合作意向，我们都期待您的来信</p>
+        </div>
+
+        <div class="content-section">
+            <h3 class="section-title">📬 联系方式</h3>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon">📧</div>
+                    <div class="contact-text">
+                        <h4>电子邮箱</h4>
+                        <p>1523114463@qq.com</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">💬</div>
+                    <div class="contact-text">
+                        <h4>官方QQ群</h4>
+                        <p>1092933378</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">🐦</div>
+                    <div class="contact-text">
+                        <h4>新浪微博</h4>
+                        <p>@我的世界服务器分享</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">🎮</div>
+                    <div class="contact-text">
+                        <h4>Discord</h4>
+                        <p>discord.gg/mcss</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h3 class="section-title">📝 在线留言</h3>
+            <form class="contact-form" onsubmit="handleContactSubmit(event)">
+                <div class="form-group">
+                    <label class="form-label">您的称呼 *</label>
+                    <input type="text" class="form-input" id="contactName" placeholder="请输入您的称呼" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">电子邮箱 *</label>
+                    <input type="email" class="form-input" id="contactEmail" placeholder="请输入您的电子邮箱" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">问题类型</label>
+                    <select class="form-select" id="contactType">
+                        <option value="general">一般咨询</option>
+                        <option value="server">服务器相关</option>
+                        <option value="cooperation">商务合作</option>
+                        <option value="report">举报投诉</option>
+                        <option value="other">其他</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">留言内容 *</label>
+                    <textarea class="form-textarea" id="contactMessage" placeholder="请详细描述您的问题或建议..." required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">📨 发送留言</button>
+            </form>
+        </div>
+
+        <div class="content-section">
+            <h3 class="section-title">❓ 常见问题</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">Q: 如何提交我的服务器？</div>
+                    <div class="faq-answer">A: 您可以点击导航栏的"提交服务器"按钮，填写相关信息并提交，我们会在1-3个工作日内完成审核。</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Q: 为什么我的服务器被移除了？</div>
+                    <div class="faq-answer">A: 可能是因为服务器长期离线、违反服务条款或信息不真实，您可以通过邮箱联系我们进行申诉。</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Q: 是否提供广告位或商业合作？</div>
+                    <div class="faq-answer">A: 是的，我们提供多种合作方式，请通过商务合作邮箱与我们联系，我们会尽快回复。</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-links">
+            <a href="index.html" class="footer-link">首页</a>
+            <a href="about.html" class="footer-link">关于我们</a>
+            <a href="submit_server.html" class="footer-link">提交服务器</a>
+            <a href="terms_of_service.html" class="footer-link">服务条款</a>
+            <a href="privacy_policy.html" class="footer-link">隐私政策</a>
+        </div>
+        <p class="copyright">© 2026 我的世界服务器分享平台 | 用心发现每一个精彩服务器</p>
+    </footer>
+
+    <script>
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('contactName').value.trim();
+            const email = document.getElementById('contactEmail').value.trim();
+            const type = document.getElementById('contactType').value;
+            const message = document.getElementById('contactMessage').value.trim();
+
+            if (!name || !email || !message) {
+                alert('请填写必填项！');
+                return;
+            }
+
+            alert(`感谢您的留言，${name}！\n我们已收到您的消息，将尽快通过 ${email} 与您联系。`);
+            e.target.reset();
+        }
+    </script>
+</body>
+</html>

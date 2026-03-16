@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>服务条款 - 我的世界服务器分享</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-red: #e63946;
+            --dark-red: #c1121f;
+            --light-red: #ff758f;
+            --pale-red: #ffccd5;
+            --bg-dark: #1a1a2e;
+            --bg-card: #16213e;
+            --text-light: #ffffff;
+            --text-muted: #a0a0a0;
+            --border-color: #e6394633;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #0f0f23 100%);
+            min-height: 100vh;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* 头部样式 */
+        header {
+            background: linear-gradient(90deg, var(--dark-red) 0%, var(--primary-red) 50%, var(--dark-red) 100%);
+            padding: 1.5rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--text-light);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: var(--pale-red);
+            font-size: 0.95rem;
+        }
+
+        /* 导航栏 */
+        nav {
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+            padding: 0.8rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .back-link {
+            color: var(--text-light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--primary-red);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-red);
+        }
+
+        /* 主要内容区 */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .page-title h2 {
+            font-size: 2rem;
+            color: var(--primary-red);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-title p {
+            color: var(--text-muted);
+        }
+
+        .content-section {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .section-title {
+            color: var(--primary-red);
+            font-size: 1.3rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .content-section p {
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .content-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        .agreement-box {
+            background: var(--bg-dark);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 3px solid var(--primary-red);
+        }
+
+        .agreement-box h4 {
+            color: var(--primary-red);
+            margin-bottom: 0.8rem;
+        }
+
+        .agreement-box ul {
+            list-style: none;
+            color: var(--text-muted);
+        }
+
+        .agreement-box li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .agreement-box li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary-red);
+        }
+
+        .highlight {
+            color: var(--primary-red);
+            font-weight: 600;
+        }
+
+        .update-date {
+            text-align: right;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* 页脚 */
+        footer {
+            background: var(--bg-card);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--primary-red);
+        }
+
+        .copyright {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .page-title h2 {
+                font-size: 1.6rem;
+            }
+
+            .content-section {
+                padding: 1.5rem;
+            }
+
+            .nav-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部 -->
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">⛏️</div>
+                <h1>我的世界服务器分享</h1>
+            </div>
+            <p class="subtitle">发现最优质的MC服务器，开启你的方块冒险之旅</p>
+        </div>
+    </header>
+
+    <!-- 导航栏 -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="back-link">← 返回首页</a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">首页</a>
+                <a href="about.html" class="nav-link">关于我们</a>
+                <a href="submit_server.html" class="nav-link">提交服务器</a>
+                <a href="terms_of_service.html" class="nav-link active">服务条款</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <main>
+        <div class="page-title">
+            <h2>服务条款</h2>
+            <p>请仔细阅读以下条款，使用本平台即表示您同意遵守</p>
+        </div>
+
+        <div class="content-section">
+            <h3 class="section-title">📜 1. 服务说明</h3>
+            <p>
+                本平台（以下简称"我们"）是一个<span class="highlight">Minecraft服务器信息分享平台</span>，旨在为玩家提供优质的服务器发现、展示和交流服务。我们本身不运营任何Minecraft服务器，仅作为信息中介平台。
+            </p>
+            <p>
+                我们努力确保平台上展示的服务器信息准确可靠，但无法保证所有信息的实时性和准确性。服务器状态、在线人数、游戏内容等可能会随时发生变化，请以实际连接情况为准。
+            </p>
+        </div>
+
+        <div class="content-section">
+            <h3 class="section-title">📝 2. 用户注册与账户</h3>
+            <p>
+                部分功能可能需要您注册账户才能使用。注册时，您必须提供真实、准确、完整的信息，并及时更新您的个人信息以保持其真实性、准确性和完整性。
+            </p>
+            <div class="agreement-box">
+                <h4>账户使用规范</h4>
+                <ul>
+                    <li>您对账户中的所有活动负责，请妥善保管账户信息</li>
+                    <li>如发现任何未经授权的账户使用，请立即通知我们</li>
+                    <li>我们保留在必要时暂停或终止违规账户的权利</li>
+                    <li>一个用户只能拥有一个账户，禁止多账户注册</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h3 class="section-title">📤 3. 服务器提交规则</h3>
+            <p>
+                我们欢迎服务器主提交自己的服务器信息，但必须遵守以下规则：
+            </p>
+            <div class="agreement-box">
+                <h4>提交要求</h4>
+                <ul>
+                    <li>服务器必须长期稳定运行，在线率不低于80%</li>
+                    <li>服务器需符合Mojang官方EULA规定，禁止Pay-to-Win模式</li>
+                    <li>必须提供真实有效的服务器IP和联系信息</li>
+                    <li>不得提交涉及违法、违规、色情、暴力内容的服务器</li>
+                    <li>不得重复提交同一服务器或恶意占用资源</li>
+                </ul>
+            </div>
+            <p>
+                我们保留对提交内容进行审核、修改或拒绝的权利。违反上述规则的服务器将被立即移除，相关账户可能面临封禁处理。
+            </p>
+        </div>
+
+        <div class="content-section">
+            <h3 class="section-title">⚠️ 4. 用户行为规范</h3>
+            <p>
+                在使用本平台时，您同意遵守以下行为规范：
+            </p>
+            <div class="agreement-box">
+                <h4>禁止行为</h4>
+                <ul>
+                    <li>发布、传播任何违法、有害、威胁、辱骂、骚扰、诽谤、粗俗、淫秽、侵犯隐私或侵权的内容</li>
+                    <li>冒充他人或机构，或提供虚假信息</li>
+                    <li>干扰或破坏平台的正常运行，或试图未经授权访问系统</li>
+                    <li>进行任何形式的网络攻击、数据窃取或破坏活动</li>
+                    <li>利用平台进行商业欺诈、垃圾广告或恶意推广</li>
+                    <li>侵犯其他用户或第三方的知识产权、隐私权等合法权益</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h3 class="section-title">🛡️ 5. 免责声明</h3>
+            <p>
+                本平台按"现状"和"可用"基础提供服务，我们不对以下情况承担责任：
+            </p>
+            <div class="agreement-box">
+                <h4>免责范围</h4>
+                <ul>
+                    <li>因网络状况、服务器故障、不可抗力等因素导致的服务中断或数据丢失</li>
+                    <li>用户通过本平台获取的服务器信息不准确、不及时或过时</li>
+                    <li>用户与服务器主之间发生的任何纠纷或损失</li>
+                    <li>用户因使用本平台而遭受的任何直接或间接损失</li>
+                    <li>第三方链接或内容的安全性、准确性或合法性</li>
+                </ul>
+            </div>
+            <p>
+                我们建议您在连接任何服务器前，自行评估其安全性和可靠性。对于任何因使用本平台或所连接服务器而造成的任何损失，我们概不负责。
+            </p>
+        </div>
+
+        <div class="content-section">
+            <h3 class="section-title">🔄 6. 服务变更与终止</h3>
+            <p>
+                我们保留随时修改、暂停或终止本平台服务的权利，无需事先通知。服务变更可能包括：
+            </p>
+            <div class="agreement-box">
+                <h4>可能的变更</h4>
+                <ul>
+                    <li>服务功能的增加、修改或删除</li>
+                    <li>服务条款的更新和修订</li>
+                    <li>服务价格的调整（如适用）</li>
+                    <li>服务区域的限制或扩展</li>
+                </ul>
+            </div>
+            <p>
+                如您不同意服务变更，应立即停止使用本平台。继续使用本平台即表示您接受变更后的条款。
+            </p>
+        </div>
+
+        <div class="content-section">
+            <h3 class="section-title">⚖️ 7. 知识产权</h3>
+            <p>
+                本平台的所有内容，包括但不限于文字、图片、音频、视频、软件、设计、商标、标识等，均受知识产权法保护，归我们或我们的许可方所有。
+            </p>
+            <p>
+                未经我们书面许可，您不得以任何方式复制、修改、传播、展示、执行、出版、许可、创建衍生作品或销售本平台的任何内容。Minecraft及其相关素材是Mojang Studios的商标，版权归其所有。
+            </p>
+        </div>
+
+        <div class="content-section">
+            <h3 class="section-title">📧 8. 联系我们</h3>
+            <p>
+                如您对本服务条款有任何疑问、建议或投诉，请通过以下方式联系我们：
+            </p>
+            <div class="agreement-box">
+                <h4>联系方式</h4>
+                <ul>
+                    <li>电子邮箱：support@mcss.com</li>
+                    <li>官方QQ群：123456789</li>
+                    <li>工作时间：周一至周五 9:00-18:00</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h3 class="section-title">📅 9. 条款更新</h3>
+            <p>
+                我们可能会不时更新本服务条款。更新后的条款将在本页面发布，并注明更新日期。我们鼓励您定期查看本页面以了解最新条款。
+            </p>
+            <p>
+                如您在本条款更新后继续使用本平台，即表示您接受更新后的条款。如您不接受更新后的条款，应停止使用该平台。
+            </p>
+        </div>
+
+        <p class="update-date">最后更新日期：2026年3月16日</p>
+    </main>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-links">
+            <a href="index.html" class="footer-link">首页</a>
+            <a href="about.html" class="footer-link">关于我们</a>
+            <a href="submit_server.html" class="footer-link">提交服务器</a>
+            <a href="terms_of_service.html" class="footer-link">服务条款</a>
+            <a href="privacy_policy.html" class="footer-link">隐私政策</a>
+        </div>
+        <p class="copyright">© 2026 我的世界服务器分享平台 | 用心发现每一个精彩服务器</p>
+    </footer>
+</body>
+</html>
